@@ -1,5 +1,5 @@
 class Plinko {
-    constructor(x, y, r) {
+    constructor(x, y) {
       var options = {
           isStatic: true,
           restitution : 0.8,
@@ -7,15 +7,15 @@ class Plinko {
           density : 1.0
       }
 
-      this.body = Bodies.circle(x, y, r, options);
-      this.r = r;
+      this.body = Bodies.circle(x, y, 10, options);
+      this.r = 10;
       World.add(world, this.body);
     }
     
     display(){
       var pos = this.body.position;
 
-      rectMode(CENTER);
+      ellipseMode(RADIUS);
       fill("white");
       ellipse(pos.x, pos.y, this.r, this.r);
     }
