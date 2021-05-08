@@ -10,6 +10,11 @@ var divisions = [];
 var divisionHeight = 350;
 var bg_img;
 
+var score = 0;
+var particle;
+var count = 0;
+var gameState = "PLAY";
+
 function preload(){
   bg_img = loadImage("bg.jpg");
 }
@@ -50,7 +55,53 @@ function draw() {
 
   rectMode(CENTER);
   ellipseMode(RADIUS);
-    
+
+  //score 
+  push();
+  textSize(20);
+  fill("white");
+  text("Score: " + score, 10, 30);
+  pop();
+
+  //scores display
+  fill("white");
+  textSize(30);
+  text("500", 15, 555);
+  text("500", 95, 555);
+  text("500", 175, 555);
+  text("200", 255, 555);
+  text("200", 335, 555);
+  text("200", 415, 555);
+  text("200", 495, 555);
+  text("100", 575, 555);
+  text("100", 655, 555);
+  text("100", 735, 555);
+  text("100", 815, 555);
+
+  if(particle != null){
+      particle.display();
+
+      if(particle.position.y > 700){
+        if(particle.position.x > 350){
+          score += 500;
+          particle = null;
+          if(count <= 5) gameState = "END";
+        }
+        
+        else if(particle.position.x > 500){
+          score += 200;
+          particle = null;
+          if(count <= 5) gameState = "END";
+        }
+        
+       else if(particle.position.x > 880){
+          score += 100;
+          particle = null;
+          if(count <= 5) gameState = "END";
+        }
+      }
+  }
+   
   //plinko display
   for(var a = 0; a < plinkos.length; a++){
     plinkos[a].display();
@@ -61,16 +112,14 @@ function draw() {
     divisions[k].display(); 
   }
 
-  //pushing particles
-  if(frameCount % 60 === 0){
-    particles.push(new Particles(random(width/2-10, width/2+10), 10, 10)); 
-  }
-
-
-  //particles display
-  for(var j = 0; j < particles.length; j++) { 
-    particles[j].display(); 
-  }
-
   ground.display();
 }
+
+function mousePressed(){
+  if (gameState !== "END"){
+    count =+ 1;
+    particle = new Particles(mouseX, 10, 10, 10);
+    particles.push(new Particles(random(width/2-10, width/2+10), 10, 10)); 
+  }
+}
+
